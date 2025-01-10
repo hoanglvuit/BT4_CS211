@@ -273,26 +273,20 @@ poetry run pip install "stable_baselines3==2.0.0a1"
 
     envs.close()
     writer.close()
+
     if args.save_model:
-        episodic_returns = evaluate(
-            model_path,
-            make_env,
-            args.env_id,
-            eval_episodes=1,
-            run_name=f"{run_name}-eval1_{args.seed}",
-            Model=(Actor, QNetwork),
-            device=device,
-            exploration_noise=args.exploration_noise,
-        )
-        for idx, episodic_return in enumerate(episodic_returns):
-            writer.add_scalar("eval/episodic_return1", episodic_return, idx)
-
-        # if args.upload_model:
-        #     from cleanrl_utils.huggingface import push_to_hub
-
-        #     repo_name = f"{args.env_id}-{args.exp_name}-seed{args.seed}"
-        #     repo_id = f"{args.hf_entity}/{repo_name}" if args.hf_entity else repo_name
-        #     push_to_hub(args, episodic_returns, repo_id, "DDPG", f"runs/{run_name}", f"videos/{run_name}-eval")
-
-    envs.close()
-    writer.close()
+        for i in range(10) : 
+            episodic_returns = evaluate(
+                model_path,
+                make_env,
+                args.env_id,
+                eval_episodes=1,
+                run_name=f"{run_name}-eval{i}_{args.seed}",
+                Model=(Actor, QNetwork),
+                device=device,
+                exploration_noise=args.exploration_noise,
+            )
+            for idx, episodic_return in enumerate(episodic_returns):
+                writer.add_scalar("eval/episodic_return{i}", episodic_return, idx)
+            envs.close()
+            writer.close()
