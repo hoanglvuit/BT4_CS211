@@ -13,7 +13,7 @@ import torch.optim as optim
 import tyro
 from stable_baselines3.common.buffers import ReplayBuffer
 from torch.utils.tensorboard import SummaryWriter
-from cleanrl_utils.evals.ddpg_eval.py import evaluate
+from cleanrl_utils.evals.ddpg_eval import evaluate
 
 
 @dataclass
